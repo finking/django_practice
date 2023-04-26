@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content_blog  %}
+<h2>Заполните форму</h2>
+<form action="" method="post">
+    {{ form.media }}
+    {{ form|crispy }}
+     {% csrf_token%}
+    <input type='submit' value="сохранить">
+
+</form>
+
+{% endblock%}

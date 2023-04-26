@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    {% if object_list %}
+        {% for obj in object_list %}
+            <ul>
+                <li><a href="/article/{{obj.slug }}">{{ obj.title }} </a></li>
+            </ul>
+
+        {% endfor %}
+    {% else %}
+    <h4>Пока нет записей, зайдите позже.</h4>
+    {% endif %}
+{% endblock %}

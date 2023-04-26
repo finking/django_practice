@@ -1,0 +1,13 @@
+{% extends 'getlink_app/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2> {{page.name }}</h2>
+
+<div class="content"> {{page.content }} </div>
+<p>{{page.data_created}}</p>
+<p>{{page.slug}}</p>
+
+
+{% endblock %}
