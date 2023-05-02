@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'getlink_app',
     'info_notes',
     'discussions',
+    'forms_app',
 
     # Сторонние библиотеки
     # https://django-extensions.readthedocs.io/en/latest/
