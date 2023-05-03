@@ -28,6 +28,8 @@ urlpatterns = [
     path('article/', include('main_site.urls')),
     path('page/', include(('getlink_app.urls', 'yes_ns'), namespace='yes_ns')),
     path('notes/', include('info_notes.urls')),
+    path('discussion/', include('discussions.urls')),
+    path('form/', include('forms_app.urls')),
 ]
 
 if settings.DEBUG:

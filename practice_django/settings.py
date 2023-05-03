@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig', # когда применяете сигналы, метки
     'getlink_app',
     'info_notes',
-    # 'discussions', # В ветке blog
+    'discussions',
+    'forms_app',
 
     # Сторонние библиотеки
     # https://django-extensions.readthedocs.io/en/latest/
