@@ -1,3 +1,10 @@
+from django.http import request
 from django.shortcuts import render
+from .forms import ContactForm
 
-# Create your views here.
+
+def contact_send(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST, request.FILES)
+    else:
+        form = ContactForm()
