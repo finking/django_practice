@@ -1,0 +1,23 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content_blog  %}
+<br>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<h2>Заполните форму</h2>
+<form action="" method="post">
+    {{ form.media }}
+    {{ form|crispy }}
+     {% csrf_token%}
+    <input type='submit' value="Отправить">
+
+</form>
+
+{% endblock%}
