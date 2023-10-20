@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import contact_send, send_success
+from .views import contact_send
 
 # path('form/', include('forms_app.urls')),
 urlpatterns = [
@@ -8,5 +8,5 @@ urlpatterns = [
     # path('detail/<int:pk>/<slug:slug>', DiscussionDetailView.as_view(), name='discussion-detail'),
     # path('create/', discussion_created, name='create')
     path('contact/', contact_send, name='contact'),
-    path('success/', send_success, name='success')
+
 ]

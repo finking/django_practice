@@ -25,7 +25,8 @@ def contact_send(request):
             except BadHeaderError:
                 return HttpResponse("Неверное заполнение")
 
-            return redirect('success')
+            form = ContactForm()
+            messages.success(request, "Сообщение успешно отправлено.")
 
         else:
             messages.error(request, "Форма не отправлена. Исправьте ошибки ниже.")
@@ -35,6 +36,3 @@ def contact_send(request):
 
     return render(request, 'forms_app/email.html', {"form": form})
 
-
-def send_success(request):
-    return HttpResponse("Отправлено")
