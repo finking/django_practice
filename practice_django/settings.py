@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'info_notes',
     'discussions',
     'forms_app',
+    'model_form',
 
     # Сторонние библиотеки
     # https://django-extensions.readthedocs.io/en/latest/
