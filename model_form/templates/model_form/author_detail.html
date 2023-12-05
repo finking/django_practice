@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ object.name }}</title>
+</head>
+<body>
+{% if object%}
+    <p>Имя автора: </p> {{ object.name }}
+    <p>Обращение: </p> {{ object.title }}
+    <p>День рождения: </p> {{ object.birth_date }}
+{% endif%}
+</body>
+</html>

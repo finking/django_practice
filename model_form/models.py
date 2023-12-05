@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 TITLE_CHOICE = [
     ('MR', 'Mr.'),
@@ -14,6 +15,9 @@ class Author(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('author-detail', kwargs={'pk': self.pk})
     
 
 class Book(models.Model):
