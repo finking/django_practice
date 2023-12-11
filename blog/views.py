@@ -5,6 +5,13 @@ from django.views.generic import ListView, CreateView, DetailView
 from .models import Post
 
 
+def index(request):
+    context = {
+        'posts': Post.objects.all()
+    }
+    return render(request, "blog/index.html",context )
+
+
 class UserPostListView(ListView):
     model = Post
     template_name = 'blog/user_posts.html'

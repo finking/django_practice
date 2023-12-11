@@ -231,6 +231,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # End django-crispy-forms
 
+# URL for login
+LOGIN_URL = 'account_login'
+LOGIN_REDIRECT_URL = 'index-home'
+
 # django-ckeditor
 CKEDITOR_CONFIGS = {
     'default': {
