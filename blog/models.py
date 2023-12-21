@@ -57,3 +57,23 @@ class Post(models.Model):
 @receiver(pre_save, sender=Post)
 def prepopulated_slug(sender, instance, **kwargs):
     instance.slug = slugify(instance.title)
+    
+
+# Модель комментариев блога
+class Comment(models.Model):
+    
+    post = models.ForeignKey(Post, related_name='comments_blog', on_delete=models.CASCADE)
+    name_author = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField(max_length=255)
+    date_created = models.DateTimeField(auto_now_add=True)
+    likes_commet = models.ManyToManyField(User, related_name='likes_blog_comment', blank=True)
+    reply = models.ForeignKey('self', null=True, related_name='replies_comment', on_delete=models.CASCADE)
+
+    def total_likes_comment(self):
+        return self.likes_commet.count()
+    
+    def __str__(self):
+        return f"{self.post.title} - {self.name_author} - {self.id}"
+    
+    def get_absolute_url(self):
+        return reverse('post-detail', kwargs={'pk': self.post.pk, 'slug': self.post.slug})

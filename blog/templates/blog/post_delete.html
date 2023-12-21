@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+
+{%block title%}
+
+    {{blog_post_detail.title}}
+
+{%endblock%}
+
+{% block content_blog %}
+
+<div class="row">
+    <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
+
+        <div class="text">
+           <form method="post">{% csrf_token %}
+                <p>Вы уверены, что хотите удалить запись: "{{ object.title }}"?</p>
+                 {{ form }}
+                <button class="btn btn-primary"  type="submit">Да, удалить.</button>
+
+                <a  class="btn btn-success"  href="{% url 'post-detail' object.id object.slug %}">Не удалять.</a>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}

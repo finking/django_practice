@@ -16,7 +16,12 @@
                 {{blog_post_detail.title}}
             </h1>
             <p class="text-center">
-                <span class="by">by</span> <a href="#">{{blog_post_detail.author}}</a>&nbsp;&nbsp;
+                {% if blog_post_detail.author == user %}
+                <a href="{% url 'post-delete' blog_post_detail.id %}">Удалить | </a>
+                <a href="{% url 'post-update' blog_post_detail.id %}">Редактировать | </a>
+                {% endif %}
+
+                <span class="by">1by</span> <a href="#">{{blog_post_detail.author}}</a>&nbsp;&nbsp;
                 <span class="date">{{blog_post_detail.date_created|date:"F d Y"}} </span>
                 <br>
                 {{blog_post_detail.content|safe }}
