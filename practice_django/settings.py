@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'discussions',
     'forms_app',
     'model_form',
+    'users.apps.UsersConfig',
+    'notification',
 
     # Сторонние библиотеки
     # https://django-extensions.readthedocs.io/en/latest/
