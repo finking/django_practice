@@ -12,17 +12,21 @@
 
 {% block content_blog %}
 {% if blog_post_user_list %}
+
 <div class="row">
+    <h2 class="mb-3 text-center">Кол-во постов {{view.kwargs.username}}: ({{page_obj.paginator.count}})</h2>
     <div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
         {% for post in blog_post_user_list %}
         <div class="intro">
             <h1 class="text-center" data-bss-hover-animate="pulse">&nbsp;
-                {{post.title}}
+              {#  {{post.title}} #}
+                 <a href="{% url 'post-detail' post.id %}">{{ post.title }} </a>
             </h1>
             <p class="text-center">
                 <span class="by">by</span> <a href="#">{{post.author}}</a>&nbsp;&nbsp;<span class="date">{{post.date_created|date:"F d Y"}} </span>
                 <br>
-                {{post.content|safe }}
+                {{post.content|safe|truncatewords_html:20 }}
+                <a class="text-center" href="{% url 'post-detail' post.id %}">[Читать далее]</a>
             </p>
 
         </div>
@@ -38,7 +42,30 @@
         </div>
     </div>
 </div>
+{% if is_paginated %}
+<br>
+<div class="text-center">
 
+        {% if page_obj.has_previous %}
+          <a class="btn btn-outline-dark mb-4" href="?page=1">Первая</a>
+          <a class="btn btn-outline-dark mb-4" href="?page={{page_obj.previous_page_number}}">Предыдущая</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <a class="btn btn-dark mb-4" href="?page={{num}}">{{num}}</a>
+          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+          <a class="btn btn-outline-dark mb-4" href="?page={{num}}">{{num}}</a>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <a class="btn btn-outline-dark mb-4" href="?page={{page_obj.next_page_number}}">Следующая</a>
+          <a class="btn btn-outline-dark mb-4" href="?page={{page_obj.paginator.num_pages}}">Последняя</a>
+        {% endif %}
+
+      {% endif %}
+</div>
 {% else %}
 <p class="text-center">Пока записей нет.</p>
 {% endif %}
