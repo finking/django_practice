@@ -7,7 +7,7 @@
                 <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="color: rgba(224,217,217,0.9);">Посты</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{% url 'post-create' %}">Добавить пост</a>
-                        <a class="dropdown-item" href="#">Все посты</a>
+                        <a class="dropdown-item" href="{% url 'blog-home' %}">Все посты</a>
                         <a class="dropdown-item" href="{% url 'user-posts-list' user %}">Мои посты</a></div>
                 </li>
                 <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="color: rgba(224,217,217,0.9);">Дискуссии</a>

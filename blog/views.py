@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 from .models import Post
+import random
 
 
 def index(request):
@@ -92,3 +93,25 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("post-detail", kwargs={"pk": self.object.pk})
+    
+    
+class HomePostListViewAllUsers(ListView):
+    model = Post
+    template_name = 'blog/home.html'
+    context_object_name = 'posts'
+    ordering = ['date_created']
+    paginate_by = 3
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(HomePostListViewAllUsers, self).get_context_data()
+        users = list(User.objects.exclude(pk=self.request.user.pk))
+
+        if len(users) > 3:
+            out = 3
+        else:
+            out = len(users)
+            
+        random_users = random.sample(users, out)
+        context['random_users'] = random_users
+        
+        return context
