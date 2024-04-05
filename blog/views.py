@@ -1,9 +1,13 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
-from .models import Post
+from .models import Post, Comment
+from .forms import CommentForm
 import random
 
 
@@ -48,7 +52,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 # class PostDetailView(DetailView):
 #     model = Post
 #     context_object_name = 'blog_post_detail'
-def PostDetailView(request, pk):
+def post_detail_view(request, pk):
     handle_page = get_object_or_404(Post, id=pk)
     total_comments = handle_page.comments_blog.all().filter(reply=None).order_by('-id')
     total_comments_all = handle_page.comments_blog.all().order_by('-id')
@@ -57,9 +61,66 @@ def PostDetailView(request, pk):
 
     context = {}
     
+    if request.method == "POST":
+        comments_qs = None
+        comment_form = CommentForm(request.POST or None)
+        if comment_form.is_valid():
+            form = request.POST.get("body")
+
+            comment = Comment.objects.create(post=handle_page,
+                                             name_author=request.user,
+                                             body=form,
+                                             reply=comments_qs)
+            comment.save()
+            total_comments = handle_page.comments_blog.filter(reply=None).order_by('-id')
+    else:
+        comment_form = CommentForm()
+        
+    saved = False
+    
+    if handle_page.saves_posts.filter(id=request.user.id).exists():
+        saved = True
+    
+    context["saves_posts"] = total_saves
+    context["saved"] = saved
+    
     context["blog_post_detail"] = handle_page
+    # context["comment_form"] = comment_form
+    context["comments"] = total_comments
+
+    if request.is_ajax():
+        html = render_to_string('blog/comments.html', context)
+        return JsonResponse({"form": html})
     
     return render(request, 'blog/post_detail.html', context)
+
+
+@login_required()
+def save_post_is_ajax(request):
+    
+    post = get_object_or_404(Post, id=request.POST.get('id'))
+    saved = False
+    
+    if post.saves_posts.filter(id=request.user.id).exists():
+        post.saves_posts.remove(request.user)
+    else:
+        post.saves_posts.add(request.user)
+        saved = True
+    
+    total_saves = post.total_saves_posts()
+        
+    context = {
+        'blog_post_detail': post,
+        'saved': saved,
+        'total_saves': total_saves,
+    }
+    
+    if request.is_ajax():
+        html = render_to_string('blog/save_section.html',
+                                context,
+                                request=request)
+        
+        return JsonResponse({'form': html})
 
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -115,3 +176,13 @@ class HomePostListViewAllUsers(ListView):
         context['random_users'] = random_users
         
         return context
+
+
+# Save posts
+@login_required()
+def all_save_view_posts(request):
+    user = request.user
+    saved_posts = user.saves_posts.all()
+    context = {'saved_posts': saved_posts}
+    
+    return render(request, 'blog/saved_posts.html', context)

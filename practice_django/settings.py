@@ -137,6 +137,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',  # django-debug-toolbar
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'middleware.middlewares.AjaxMiddleware',
 
 ]
 

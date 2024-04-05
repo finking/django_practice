@@ -5,14 +5,14 @@
 
 
     {% if user.is_authenticated %}
-        <form class="comment-form" method="post" action=".">
+        <form class="comment-form" method="post" action="">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class=" mb-4">Add Comment</legend>
+                <legend class=" mb-4">Добавить комментарий:</legend>
                 <textarea required style="width: 100%;" name="body" id="cmtbody" cols="40" rows="5"></textarea>
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" id="acsubmit" type="submit">Add Comment</button>
+                <button class="btn btn-outline-info" id="acsubmit" type="submit">Добавить комментарий:</button>
             </div>
         </form>
     {% endif %}
@@ -23,7 +23,7 @@
     <hr>
     <br>
     {% if not comments %}
-        No Comments Yet...
+        Комментариев нет
     {% else %}
 
         {% for comment in comments %}
