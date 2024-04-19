@@ -12,6 +12,7 @@
     <title>{%block title%}{%endblock%}</title>
     <link rel="stylesheet" href="{% static "bootstrap5/assets/css/django_practice_styles.css" %}" >
     <link rel="stylesheet" href="{% static 'blog_static/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
   </head>
   <body>
       {#templates/templates_projects/base.html#}
@@ -102,6 +103,23 @@
 
          // LIKE POSTS
 
+         $(document).on('click','#like',function(event){
+                  event.preventDefault();
+                  var pk = $(this).attr('value');
+                  $.ajax({
+                    type: 'POST',
+                    url: '{% url "post-like" %}',
+                    data: {'id':pk, 'csrfmiddlewaretoken':'{{ csrf_token }}'},
+                    dataType: 'json',
+                    success: function(response){
+                        $('#like-section').html(response['form']);
+                        console.log($('#like-section').html(response['form']));
+                    },
+                    error: function(rs, e){
+                        console.log(rs.responseText);
+                    },
+                  });
+                });
 
         // SAVE POSTS
 

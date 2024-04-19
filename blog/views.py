@@ -76,6 +76,13 @@ def post_detail_view(request, pk):
     else:
         comment_form = CommentForm()
         
+    liked = False
+    
+    if handle_page.likes_post.filter(id=request.user.id).exists():
+        liked = True
+        context["liked"] = liked
+        context["total_likes"] = total_likes
+        
     saved = False
     
     if handle_page.saves_posts.filter(id=request.user.id).exists():
@@ -186,3 +193,26 @@ def all_save_view_posts(request):
     context = {'saved_posts': saved_posts}
     
     return render(request, 'blog/saved_posts.html', context)
+
+
+@login_required()
+def like_post(request):
+    post = get_object_or_404(Post, id=request.POST.get('id'))
+    
+    if post.likes_post.filter(id=request.user.id).exists():
+        post.likes_post.remove(request.user)
+        liked = False
+    else:
+        post.likes_post.add(request.user)
+        liked = True
+        
+    context = {
+        'blog_post_detail': post,
+        'total_likes': post.total_likes_post(),
+        'liked': liked,
+    }
+    
+    if request.is_ajax():
+        html = render_to_string('blog/like_section.html', context, request=request)
+        
+        return JsonResponse({'form': html})
