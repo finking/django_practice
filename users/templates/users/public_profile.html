@@ -1,0 +1,56 @@
+{% extends "blog/base.html" %}
+
+{% block title %} Публичный профиль {% endblock %}
+
+{% block content %}
+
+<div class="col-md-8 m-auto">
+
+    <div class="card" style="width: 100%">
+        {% if public_user.username == request.user.username %}
+            <a onclick="copytoclip()" class="btn btn-primary float-right" >Copy Public URL</a>
+        {% endif %}
+        <div class="account-img-container">
+            <div class="img-cont">
+                <img class="rounded-circle account-img" src="{{public_user.profile.image.url}}" alt="image">
+            </div>
+        </div>
+        <div class="card-body">
+            <hr>
+            <h4 class="card-title text-center">{{public_user.first_name}} {{public_user.last_name}} [{{public_user.username}}]</h4>
+            <p class="card-text text-center text-muted">{{public_user.email}}</p>
+            <p class="card-text text-center text-muted">{{public_user.profile.bio}}</p>
+
+            <hr>
+            <div class="m-t-10 p-20 text-center">
+                <div class="row">
+                    <div class="col-4">
+                        <span class="h6">Posts</span>
+                      {#  <p><a class="mr-2" href="{% url 'user-posts' public_user %}">{{public_user.profile.profile_posts.count}}</a></p> #}
+                    </div>
+                    <div class="col-4">
+                        <span class="h6">Followers</span>
+                        <p>{{public_user.following.count}}</p>
+                    </div>
+                    <div class="col-4">
+                        <span class="h6">Following</span>
+                        <p>{{public_user.profile.following.count}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function copytoclip(){
+            navigator.clipboard.writeText("{{request.build_absolute_uri}}");
+            alert("URL copied to clipboard")
+        }
+    </script>
+{% endblock %}

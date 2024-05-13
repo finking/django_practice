@@ -30,7 +30,8 @@ urlpatterns = [
     path('notes/', include('info_notes.urls')),
     path('discussion/', include('discussions.urls')),
     path('form/', include('forms_app.urls')),
-    path('author/', include('model_form.urls'))
+    path('author/', include('model_form.urls')),
+    path('user/', include('users.urls'))
 ]
 
 if settings.DEBUG:
